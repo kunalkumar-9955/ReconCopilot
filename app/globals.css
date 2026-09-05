@@ -1,26 +1,407 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ── Financial Ledger Design System ─────────────────────────────────────────── */
+
+:root, [data-theme="light"] {
+  /* Page & Surfaces */
+  --bg-page:        #F7F5F0;  /* warm paper off-white, not pure white */
+  --bg-card:        #FFFFFF;  /* clean ledger surface */
+  --bg-elevated:    #FFFFFF;
+  --bg-hover:       #EFECE3;
+  --bg-subtle:      #EDE8DC;
+  --border-card:    #D1C9B8;  /* crisp, clearly visible financial border */
+  --border-subtle:  #DFD9CC;
+
+  /* Typography */
+  --text-primary:   #1C1E22;  /* near-black, not pure black */
+  --text-muted:     #6B6F76;  /* secondary financial label */
+  --text-tertiary:  #9A9DA3;
+
+  /* Primary Accent: Deep Ledger-Green */
+  --accent-primary: #0F6B5C;  /* professional banking green */
+  --accent-hover:   #0D594D;
+  --accent-dim:     rgba(15, 107, 92, 0.08);
+  --accent-border:  rgba(15, 107, 92, 0.30);
+  --accent-text:    #FFFFFF;
+
+  /* Status Colors (Strictly 1 Job Each) */
+  --success:        #1E7F55;  /* Reconciled / Positive */
+  --success-dim:    rgba(30, 127, 85, 0.08);
+  --success-border: rgba(30, 127, 85, 0.25);
+
+  --warning:        #B5791C;  /* Exceptions / Needs Review */
+  --warning-dim:    rgba(181, 121, 28, 0.08);
+  --warning-border: rgba(181, 121, 28, 0.30);
+
+  --critical:       #B23B3B;  /* Unmatched / Critical only */
+  --critical-dim:   rgba(178, 59, 59, 0.08);
+  --critical-border:rgba(178, 59, 59, 0.30);
+
+  /* Charts */
+  --chart-grid:          #D1C9B8;
+  --chart-reconciled:    #0F6B5C;
+  --chart-exceptions:    #B5791C;
+  --chart-tooltip-bg:    #FFFFFF;
+  --chart-tooltip-border:#D1C9B8;
+
+  /* Radii & Shadows */
+  --radius-sm:      6px;
+  --radius-md:      10px;
+  --radius-lg:      14px;
+  --card-shadow:    0 1px 4px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.03);
+  --dropdown-shadow:0 10px 25px rgba(0, 0, 0, 0.10);
+  --table-header-bg:#F0EDE4;
+  --table-row-hover:rgba(15, 107, 92, 0.04);
+  --input-bg:       #FFFFFF;
+
+  /* Token aliases */
+  --teal:           var(--accent-primary);
+  --teal-dim:       var(--accent-dim);
+  --teal-border:    var(--accent-border);
+  --teal-dark:      var(--accent-text);
+  --amber:          var(--warning);
+  --amber-dim:      var(--warning-dim);
+  --amber-border:   var(--warning-border);
+  --red:            var(--critical);
+  --red-dim:        var(--critical-dim);
+  --red-border:     var(--critical-border);
+  --blue:           #2B6CB0;
+  --blue-dim:       rgba(43, 108, 176, 0.08);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+[data-theme="dark"] {
+  /* Page & Surfaces */
+  --bg-page:        #16181C;  /* warm charcoal, not blue-black */
+  --bg-card:        #1E2126;  /* elevated warm charcoal card */
+  --bg-elevated:    #24282F;
+  --bg-hover:       #282C34;
+  --bg-subtle:      #202329;
+  --border-card:    #363B44;  /* crisp, clearly visible dark card border */
+  --border-subtle:  #2D323A;
+
+  /* Typography */
+  --text-primary:   #F2F1EE;  /* warm white, not pure white */
+  --text-muted:     #9A9DA3;  /* secondary muted */
+  --text-tertiary:  #6B6F76;
+
+  /* Primary Accent: Brighter Ledger-Green */
+  --accent-primary: #3EA88A;
+  --accent-hover:   #47BC9C;
+  --accent-dim:     rgba(62, 168, 138, 0.15);
+  --accent-border:  rgba(62, 168, 138, 0.30);
+  --accent-text:    #16181C;
+
+  /* Status Colors */
+  --success:        #3EA88A;
+  --success-dim:    rgba(62, 168, 138, 0.15);
+  --success-border: rgba(62, 168, 138, 0.30);
+
+  --warning:        #D6A03C;
+  --warning-dim:    rgba(214, 160, 60, 0.15);
+  --warning-border: rgba(214, 160, 60, 0.30);
+
+  --critical:       #D45D5D;
+  --critical-dim:   rgba(212, 93, 93, 0.15);
+  --critical-border:rgba(212, 93, 93, 0.30);
+
+  /* Charts */
+  --chart-grid:          #2C2F35;
+  --chart-reconciled:    #3EA88A;
+  --chart-exceptions:    #D6A03C;
+  --chart-tooltip-bg:    #1E2126;
+  --chart-tooltip-border:#2C2F35;
+
+  /* Radii & Shadows */
+  --radius-sm:      6px;
+  --radius-md:      10px;
+  --radius-lg:      14px;
+  --card-shadow:    0 4px 12px rgba(0, 0, 0, 0.35);
+  --dropdown-shadow:0 12px 28px rgba(0, 0, 0, 0.5);
+  --table-header-bg:#1A1D22;
+  --table-row-hover:rgba(255, 255, 255, 0.025);
+  --input-bg:       #16181C;
+
+  /* Token aliases */
+  --teal:           var(--accent-primary);
+  --teal-dim:       var(--accent-dim);
+  --teal-border:    var(--accent-border);
+  --teal-dark:      var(--accent-text);
+  --amber:          var(--warning);
+  --amber-dim:      var(--warning-dim);
+  --amber-border:   var(--warning-border);
+  --red:            var(--critical);
+  --red-dim:        var(--critical-dim);
+  --red-border:     var(--critical-border);
+  --blue:           #60A5FA;
+  --blue-dim:       rgba(96, 165, 250, 0.15);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Base Setup ───────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  min-height: 100vh;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
+
+/* ── Typography Scale ──────────────────────────────────────────────────────── */
+.page-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.card-metric {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.card-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.section-heading {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.35;
+}
+
+.body-muted {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.num-tabular, .tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Consistent Card System ────────────────────────────────────────────────── */
+.app-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--card-shadow);
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.app-card:hover {
+  border-color: var(--accent-border);
+}
+
+.app-card-amber {
+  background: var(--bg-card);
+  border: 1px solid var(--warning-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--card-shadow);
+}
+
+/* ── Standardized Badges & Pills (12px, weight 600) ────────────────────────── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.pill-teal {
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-border);
+  color: var(--accent-primary);
+}
+
+.pill-amber {
+  background: var(--warning-dim);
+  border: 1px solid var(--warning-border);
+  color: var(--warning);
+}
+
+.pill-red {
+  background: var(--critical-dim);
+  border: 1px solid var(--critical-border);
+  color: var(--critical);
+}
+
+.pill-neutral {
+  background: var(--bg-hover);
+  border: 1px solid var(--border-card);
+  color: var(--text-muted);
+}
+
+/* ── Standardized Buttons ──────────────────────────────────────────────────── */
+/* Primary: Solid deep ledger-green fill with high-contrast text */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--accent-primary);
+  color: var(--accent-text);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Secondary: Outline/ghost with standard card border */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-card);
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: var(--card-shadow);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--bg-hover);
+  border-color: var(--border-subtle);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── Standardized Ledger Table ─────────────────────────────────────────────── */
+.app-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.app-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-card);
+  background: var(--table-header-bg);
+}
+
+.app-table th.text-right,
+.app-table td.text-right {
+  text-align: right;
+}
+
+.app-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-card);
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.app-table tr:hover td {
+  background: var(--table-row-hover);
+}
+
+/* ── Inputs ────────────────────────────────────────────────────────────────── */
+.app-input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--input-bg);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.app-input:focus {
+  border-color: var(--accent-primary);
+}
+
+.app-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+/* ── Top Nav Styling ───────────────────────────────────────────────────────── */
+.nav-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.nav-tab:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.nav-tab.active {
+  color: var(--accent-primary);
+  background: var(--accent-dim);
+  font-weight: 600;
+}
+
+/* Indicator dot */
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot-teal { background: var(--accent-primary); }
+.dot-amber { background: var(--warning); }
+.dot-red { background: var(--critical); }
