@@ -16,27 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                const saved = localStorage.getItem('recon_theme');
-                if (saved === 'dark') {
-                  document.documentElement.setAttribute('data-theme', 'dark');
-                } else {
-                  document.documentElement.setAttribute('data-theme', 'light');
-                }
-              } catch (e) {
-                document.documentElement.setAttribute('data-theme', 'light');
-              }
-            `,
-          }}
-        />
-      </head>
       <body>
         <ThemeProvider>
-          <div className="min-h-screen" style={{ background: 'var(--bg-page)', color: 'var(--text-primary)', transition: 'background-color 0.2s ease, color 0.2s ease' }}>
+          <div className="min-h-screen" style={{ background: 'var(--bg-page)', color: 'var(--text-primary)', transition: 'background-color 0.15s ease, color 0.15s ease' }}>
             <Navbar />
             <main>{children}</main>
           </div>

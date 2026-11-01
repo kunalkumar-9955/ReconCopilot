@@ -52,3 +52,15 @@ next-env.d.ts
 .vscode/
 *.swp
 *.swo
+
+# Added by Project Command Center AI Agent
+.env.*
+*.key
+secrets.json
+node_modules/
+venv/
+.venv/
+dist/
+build/
+__pycache__/
+*.pyc
