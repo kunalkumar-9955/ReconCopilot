@@ -1,14 +1,20 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
+const defaultUrl = 'https://dgshmayyvunzemmgcnro.supabase.co';
+const defaultAnon = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRnc2htYXl5dnVuemVtbWdjbnJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg2MTYxNDMsImV4cCI6MjEwNDE5MjE0M30.93246pSXciyr-vORRQX_9TuziO3IIq0UCxrcxJoo7o0';
+
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
   });
 
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || defaultUrl;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || defaultAnon;
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    url,
+    key,
     {
       cookies: {
         getAll() {
@@ -43,16 +49,16 @@ export async function middleware(request: NextRequest) {
 
   // If user is NOT logged in and trying to access private app pages, redirect to /login
   if (!user && !isPublicRoute) {
-    const url = request.nextUrl.clone();
-    url.pathname = '/login';
-    return NextResponse.redirect(url);
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = '/login';
+    return NextResponse.redirect(redirectUrl);
   }
 
   // If user IS already logged in and visits /login, redirect to /dashboard
   if (user && (pathname === '/login' || pathname === '/signup')) {
-    const url = request.nextUrl.clone();
-    url.pathname = '/dashboard';
-    return NextResponse.redirect(url);
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = '/dashboard';
+    return NextResponse.redirect(redirectUrl);
   }
 
   return supabaseResponse;
